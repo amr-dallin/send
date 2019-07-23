@@ -1,0 +1,77 @@
+/*
+Error: Invalid CSS after "...${color-rgba}")": expected "{", was ";"
+        on line 59 of /home/giallorossa/public_html/dallin.pro/app/plugins/SmartAdmin/webroot/scss/smartadmin/_plugin-bootstrap-markdown.scss
+        from line 17 of /home/giallorossa/public_html/dallin.pro/app/plugins/SmartAdmin/webroot/scss/smartadmin-production-plugins.scss
+
+54:   $color: $input-border-focus;
+55:   $color-rgba: rgba(red($color), green($color), blue($color), .6);
+56:   &.active {
+57:     border-color: $color;
+58:     outline: 0;
+59:     .box-shadow(~"inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px ${color-rgba}");
+60:   }
+61: 
+62:   .md-controls {
+63:     float: right;
+64:     padding: 3px;
+
+Backtrace:
+/home/giallorossa/public_html/dallin.pro/app/plugins/SmartAdmin/webroot/scss/smartadmin/_plugin-bootstrap-markdown.scss:59
+/home/giallorossa/public_html/dallin.pro/app/plugins/SmartAdmin/webroot/scss/smartadmin-production-plugins.scss:17
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/scss/parser.rb:1278:in `expected'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/scss/parser.rb:1208:in `expected'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/scss/parser.rb:1203:in `tok!'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/scss/parser.rb:677:in `block'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/scss/parser.rb:747:in `declaration_or_ruleset'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/scss/parser.rb:697:in `block_child'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/scss/parser.rb:689:in `block_contents'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/scss/parser.rb:678:in `block'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/scss/parser.rb:747:in `declaration_or_ruleset'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/scss/parser.rb:697:in `block_child'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/scss/parser.rb:689:in `block_contents'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/scss/parser.rb:678:in `block'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/scss/parser.rb:670:in `ruleset'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/scss/parser.rb:696:in `block_child'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/scss/parser.rb:686:in `block_contents'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/scss/parser.rb:137:in `stylesheet'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/scss/parser.rb:41:in `parse'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/engine.rb:414:in `_to_tree'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/engine.rb:321:in `to_tree'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/tree/visitors/perform.rb:327:in `block in visit_import'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/stack.rb:88:in `block in with_import'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/stack.rb:135:in `with_frame'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/stack.rb:88:in `with_import'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/tree/visitors/perform.rb:326:in `visit_import'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/tree/visitors/base.rb:36:in `visit'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/tree/visitors/perform.rb:162:in `block in visit'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/stack.rb:79:in `block in with_base'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/stack.rb:135:in `with_frame'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/stack.rb:79:in `with_base'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/tree/visitors/perform.rb:162:in `visit'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/tree/visitors/base.rb:52:in `map'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/tree/visitors/perform.rb:171:in `block in visit_children'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/tree/visitors/perform.rb:183:in `with_environment'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/tree/visitors/perform.rb:170:in `visit_children'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/tree/visitors/base.rb:36:in `block in visit'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/tree/visitors/perform.rb:190:in `visit_root'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/tree/visitors/base.rb:36:in `visit'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/tree/visitors/perform.rb:161:in `visit'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/tree/visitors/perform.rb:10:in `visit'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/tree/root_node.rb:36:in `css_tree'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/tree/root_node.rb:29:in `render_with_sourcemap'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/engine.rb:389:in `_render_with_sourcemap'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/engine.rb:307:in `render_with_sourcemap'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/exec/sass_scss.rb:391:in `run'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/exec/sass_scss.rb:63:in `process_result'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/exec/base.rb:52:in `parse'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/lib/sass/exec/base.rb:19:in `parse!'
+/var/lib/gems/2.3.0/gems/sass-3.5.5/bin/sass:13:in `<top (required)>'
+/usr/local/bin/sass:23:in `load'
+/usr/local/bin/sass:23:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: Invalid CSS after \"...${color-rgba}\")\": expected \"{\", was \";\"\A         on line 59 of /home/giallorossa/public_html/dallin.pro/app/plugins/SmartAdmin/webroot/scss/smartadmin/_plugin-bootstrap-markdown.scss\A         from line 17 of /home/giallorossa/public_html/dallin.pro/app/plugins/SmartAdmin/webroot/scss/smartadmin-production-plugins.scss\A \A 54:   $color: $input-border-focus;\A 55:   $color-rgba: rgba(red($color), green($color), blue($color), .6);\A 56:   &.active {\A 57:     border-color: $color;\A 58:     outline: 0;\A 59:     .box-shadow(~\"inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px ${color-rgba}\");\A 60:   }\A 61: \A 62:   .md-controls {\A 63:     float: right;\A 64:     padding: 3px;"; }
