@@ -45,6 +45,16 @@ class AppController extends Controller
             'enableBeforeRedirect' => false,
         ]);
         $this->loadComponent('Flash');
+        $this->loadComponent('Auth', [
+            'loginAction' => [
+                'controller' => 'Users',
+                'action' => 'login'
+            ],
+            'loginRedirect' => [
+                'controller' => 'Campaigns',
+                'action' => 'index'
+            ]
+        ]);
 
         /*
          * Enable the following component for recommended CakePHP security settings.
@@ -56,5 +66,13 @@ class AppController extends Controller
     public function beforeRender(\Cake\Event\Event $event)
     {
         $this->viewBuilder()->setTheme('SmartAdmin');
+    }
+
+    public function isAuthorized($user)
+    {
+        if (!empty($user)) {
+            return true;
+        }
+        return false;
     }
 }

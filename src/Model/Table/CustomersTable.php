@@ -33,7 +33,7 @@ class CustomersTable extends Table
         parent::initialize($config);
 
         $this->setTable('customers');
-        $this->setDisplayField('id');
+        $this->setDisplayField('fullname');
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp', [

@@ -19,10 +19,9 @@ class CampaignsController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['Customers']
-        ];
-        $campaigns = $this->paginate($this->Campaigns);
+        $campaigns = $this->Campaigns
+            ->find()
+            ->contain(['Customers', 'Items']);
 
         $this->set(compact('campaigns'));
     }
@@ -50,9 +49,6 @@ class CampaignsController extends AppController
      */
     public function add()
     {
-        $customer = $this->Campaigns->Customers
-            ->get($this->request->query['customer_id']);
-
         $campaign = $this->Campaigns->newEntity();
         if ($this->request->is('post')) {
             $campaign = $this->Campaigns->patchEntity($campaign, $this->request->getData());
@@ -64,7 +60,8 @@ class CampaignsController extends AppController
             $this->Flash->error(__('The campaign could not be saved. Please, try again.'));
         }
 
-        $this->set(compact('customer', 'campaign'));
+        $customers = $this->Campaigns->Customers->find('list')->toArray();
+        $this->set(compact('customers', 'campaign'));
     }
 
     /**

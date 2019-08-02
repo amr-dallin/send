@@ -1,57 +1,139 @@
 <?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Campaign[]|\Cake\Collection\CollectionInterface $campaigns
- */
+$title = __('Campaigns');
+
+$this->assign('title', $title);
+
+$this->start('ribbon');
+$breadcrumbs = [['title' => $title]];
+echo $this->element('ribbon', ['breadcrumbs' => $breadcrumbs]);
+$this->end();
+
+$this->start('navigation');
+$menu['campaigns'][1] = true;
+echo $this->element('navigation', ['menu' => $menu]);
+$this->end();
 ?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Campaign'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Customers'), ['controller' => 'Customers', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Customer'), ['controller' => 'Customers', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Items'), ['controller' => 'Items', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Item'), ['controller' => 'Items', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="campaigns index large-9 medium-8 columns content">
-    <h3><?= __('Campaigns') ?></h3>
-    <table cellpadding="0" cellspacing="0">
-        <thead>
-            <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('customer_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('title') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('date_created') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('date_modified') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($campaigns as $campaign): ?>
-            <tr>
-                <td><?= $this->Number->format($campaign->id) ?></td>
-                <td><?= $campaign->has('customer') ? $this->Html->link($campaign->customer->id, ['controller' => 'Customers', 'action' => 'view', $campaign->customer->id]) : '' ?></td>
-                <td><?= h($campaign->title) ?></td>
-                <td><?= h($campaign->date_created) ?></td>
-                <td><?= h($campaign->date_modified) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $campaign->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $campaign->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $campaign->id], ['confirm' => __('Are you sure you want to delete # {0}?', $campaign->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
+
+<?php $this->start('script-code'); ?>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var table = $('#dt_basic').DataTable({
+            "dom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'hidden-xs col-sm-6'l>r>"+
+                "t"+
+                "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+            "oLanguage": {
+                "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+			},
+            responsive: {
+                details: {
+                    type: 'column', target: 'tr'
+                }
+            },
+            columnDefs: [
+                {orderable: false, targets: 0},
+                {orderable: false, targets: -1}
+            ],
+            order: [1, 'asc']
+        });
+    });
+</script>
+<?php $this->end(); ?>
+
+<div class="row">
+    <div class="col-xs-12 col-md-8">
+        <h1 class="page-title txt-color-blueDark">
+            <!-- PAGE HEADER -->
+            <?php echo $title; ?>
+        </h1>
+    </div>
+    <div class="col-xs-12 col-md-4 text-align-right" style="margin: 10px 0 20px;">
+        <?php
+        echo $this->Html->link(
+            __('Create New'),
+            ['controller' => 'campaigns', 'action' => 'add'],
+            ['class' => 'btn btn-success']
+        )
+        ?>
     </div>
 </div>
+
+<section id="widget-grid">
+
+    <!-- row -->
+    <div class="row">
+        <!-- NEW WIDGET START -->
+        <article class="col-md-12">
+
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget" id="wid-id-1">
+                <header></header>
+                <!-- widget div-->
+                <div>
+
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+                    <!-- end widget edit box -->
+
+                    <!-- widget content -->
+                    <div class="widget-body no-padding">
+                        <table id="dt_basic" class="table table-striped table-bordered table-hover" width="100%">
+                            <thead>
+                                <tr>
+                                    <th style="width: 5%;"></th>
+                                    <th class="all"><?php echo __('Title'); ?></th>
+                                    <th><?php echo __('Customer'); ?></th>
+                                    <th><?php echo __('New'); ?></th>
+                                    <th><?php echo __('Sended'); ?></th>
+                                    <th class="desktop"><?php echo __('Date Created'); ?></th>
+                                    <th style="width: 5%;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach($campaigns as $campaign): ?>
+                                <tr>
+                                    <td class="text-center">
+                                        <?php
+                                        echo $this->Html->link(
+                                            $this->Html->tag('i', '', ['class' => 'fa fa-pencil']),
+                                            ['controller' => 'Campaigns', 'action' => 'edit', $campaign->id],
+                                            ['escape' => false]
+                                        );
+                                        ?>
+                                    </td>
+                                    <td><?php echo h($campaign->title); ?></td>
+                                    <td>
+                                        <?php
+                                        echo $this->Html->link(h($campaign->customer->fullname), [
+                                            'controller' => 'Customers', 'action' => 'view', h($campaign->customer->id)
+                                        ]);
+                                        ?>
+                                    </td>
+                                    <td><?php echo $this->Send->countSubscribers($campaign->items, 'new'); ?></td>
+                                    <td><?php echo $this->Send->countSubscribers($campaign->items, 'sended'); ?></td>
+                                    <td><?php echo $campaign->date_created; ?></td>
+                                    <td class="text-center">
+                                        <?php
+                                        echo $this->Html->link(
+                                            $this->Html->tag('i', '', ['class' => 'fa fa-eye']),
+                                            ['controller' => 'Campaigns', 'action' => 'view', $campaign->id],
+                                            ['escape' => false]
+                                        );
+                                        ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+            <!-- end widget -->
+        </article>
+        <!-- WIDGET END -->
+    </div>
+    <!-- end row -->
+</section>

@@ -105,52 +105,6 @@
                     </li>
                 </ul>
             </li>
-
-            <!-- Settings menu -->
-            <li class="<?php if (isset($menu['settings'])) echo 'active open'; ?>">
-                <?php
-                echo $this->Html->link(
-                    $this->Html->tag('i', '', ['class' => 'fa fa-lg fa-fw fa-gear']).
-                    ' '.
-                    $this->Html->tag('span', __('Settings'),
-                        ['class' => 'menu-item-parent']
-                    ),
-                    '#',
-                    ['escape' => false]
-                );
-                ?>
-                <ul>
-                    <li <?php if (isset($menu['settings'][0])) echo 'class="active"'; ?>>
-                    <?php
-                    echo $this->Html->link(__('Add'),
-                        ['controller' => 'Settings', 'action' => 'add']
-                    );
-                    ?>
-                    </li>
-                    <li class="<?php if (isset($menu['settings'][1])) echo 'active open'; ?>">
-                        <?php
-                        echo $this->Html->link(
-                            $this->Html->tag('span', __('List'),
-                                ['class' => 'menu-item-parent']
-                            ),
-                            '#',
-                            ['escape' => false]
-                        );
-                        ?>
-                        <ul>
-                            <?php foreach($configure['Settings'] as $key => $setting_group): ?>
-                            <li <?php if (isset($menu['settings'][1][$key])) echo 'class="active"'; ?>>
-                                <?php
-                                echo $this->Html->link($key,
-                                    ['controller' => 'settings', 'action' => 'index', $key]
-                                );
-                                ?>
-                            </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
         </ul>
     </nav>
     <span class="minifyme" data-action="minifyMenu"> <i class="fa fa-arrow-circle-left hit"></i> </span>

@@ -1,25 +1,23 @@
 <?php
 $title = __('Create Campaign');
 
+$customer_id = '';
+if (null !== $this->getRequest()->getQuery('customer_id')) {
+    $customer_id = $this->getRequest()->getQuery('customer_id');
+}
+
 $this->assign('title', $title);
 
 $this->start('ribbon');
 $breadcrumbs = [
-    [
-        'url' => ['controller' => 'customers', 'action' => 'index'],
-        'title' => __('Customers')
-    ],
-    [
-        'url' => ['controller' => 'customers', 'action' => 'view', h($customer->id)],
-        'title' => h($customer->fullname)
-    ],
+    ['url' => ['action' => 'index'], 'title' => __('Campaigns')],
     ['title' => $title]
 ];
 echo $this->element('ribbon', ['breadcrumbs' => $breadcrumbs]);
 $this->end();
 
 $this->start('navigation');
-$menu['customers'][1] = true;
+$menu['campaigns'][1] = true;
 echo $this->element('navigation', ['menu' => $menu]);
 $this->end();
 ?>
@@ -53,8 +51,9 @@ $this->end();
                         <fieldset>
                             <?php
                             echo $this->Form->control('customer_id', [
-                                'type' => 'hidden',
-                                'value' => h($customer->id)
+                                'class' => 'select2',
+                                'value' => $customer_id,
+                                'options' => $customers
                             ]);
                             echo $this->Form->control('title', [
                                 'placeholder' => __('Title')
