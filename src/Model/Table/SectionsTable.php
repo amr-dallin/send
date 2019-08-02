@@ -194,10 +194,7 @@ class SectionsTable extends Table
                     $q = $q->where(['Items.id NOT IN' => $options['item_ids']]);
                 }
 
-                return $q->where([
-                    'Items.live' => 1,
-                    'Items.email IS NOT' => null
-                ]);
+                return $q->find('live');
             })
             ->group('Sections.id')
             ->select(['Sections.id', 'Sections.title'])
@@ -212,10 +209,7 @@ class SectionsTable extends Table
 
                 return $q
                     ->select(['Items.id'])
-                    ->where([
-                        'Items.live' => 1,
-                        'Items.email IS NOT' => null
-                    ]);
+                    ->find('live');
             });
     }
 }

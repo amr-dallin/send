@@ -14,7 +14,8 @@
         "mobiledetect/mobiledetectlib": "2.*",
         "sabre/xml": "^2.1",
         "steinm6/cron-helper": "dev-master",
-        "sunra/php-simple-html-dom-parser": "^1.5"
+        "sunra/php-simple-html-dom-parser": "^1.5",
+        "zytzagoo/smtp-validate-email": "^1.0"
     },
     "require-dev": {
         "cakephp/bake": "^1.9.0",

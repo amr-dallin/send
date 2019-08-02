@@ -60,15 +60,19 @@ class ItemsTable extends Table
         $this->belongsTo('Cities', [
             'foreignKey' => 'city_id'
         ]);
+        $this->belongsTo('Domains', [
+            'foreignKey' => 'domain_id'
+        ]);
         $this->hasMany('ItemTelephones', [
-            'foreignKey' => 'item_id'
+            'foreignKey' => 'item_id',
+            'dependent' => true,
+            'cascadeCallbacks' => true,
         ]);
         $this->belongsToMany('Categories', [
             'foreignKey' => 'item_id',
             'targetForeignKey' => 'category_id',
             'joinTable' => 'categories_items'
         ]);
-
         $this->belongsToMany('Campaigns', [
             'foreignKey' => 'item_id',
             'targetForeignKey' => 'campaign_id',
@@ -403,8 +407,7 @@ class ItemsTable extends Table
                 return false;
             })
             ->where(['Items.city_id IN' => $options['city_ids']])
-            ->where(['Items.live' => 1])
-            ->where(['Items.email IS NOT' => null])
+            ->find('live')
             ->distinct('Items.id');
 
         if (!empty($options['item_ids'])) {
@@ -423,5 +426,14 @@ class ItemsTable extends Table
             ->where([
                 'Campaigns.campaign_id' => $options['campaign_id']
             ]);
+    }
+
+    public function findLive(Query $query, array $options)
+    {
+        return $query->where([
+            'Items.rfc_validate' => true,
+            'Items.spoof_validate' => true,
+            'Items.dns_validate' => true
+        ]);
     }
 }

@@ -42,6 +42,7 @@ class Item extends Entity
      * @var array
      */
     protected $_accessible = [
+        'domain_id' => true,
         'country_id' => true,
         'region_id' => true,
         'city_id' => true,
@@ -58,7 +59,11 @@ class Item extends Entity
         'longitude' => true,
         'date_created' => true,
         'date_analysed' => true,
-        'live' => true,
+        'rfc_validate' => true,
+        'spoof_validate' => true,
+        'dns_validate' => true,
+        'smtp_validate' => true,
+        'clear' => true,
         'country' => true,
         'region' => true,
         'city' => true,

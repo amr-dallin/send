@@ -14,7 +14,7 @@ use Egulias\EmailValidator\Validation\MultipleValidationWithAnd;
 use Egulias\EmailValidator\Validation\RFCValidation;
 use Egulias\EmailValidator\Validation\SpoofCheckValidation;
 
-//use SMTPValidateEmail\Validator as SmtpEmailValidator;
+use SMTPValidateEmail\Validator as SmtpEmailValidator;
 
 class ItemCommand extends Command
 {
@@ -34,30 +34,9 @@ class ItemCommand extends Command
 
     public function execute(Arguments $args, ConsoleIo $io)
     {
-        $validator = new EmailValidator();
-        $multipleValidations = new MultipleValidationWithAnd([
-            new RFCValidation(),
-            new DNSCheckValidation(),
-            new SpoofCheckValidation()
-        ]);
-
-        $items = $this->itemsTable
-            ->find()
-            ->select(['Items.id', 'Items.email'])
-            ->where([
-                'Items.email IS NOT' => null,
-                'Items.live IS' => null
-            ])
-            ->toArray();
-
-        foreach($items as $item) {
-            $result = 0;
-            if ($validator->isValid($item->email, $multipleValidations)) {
-                $result = 1;
-            }
-            $item->live = $result;
-            $this->itemsTable->save($item);
-        }
+        $email = ['amr.dallin@gmail.com', 'mail@dallin.uz', 'ilmir@gmail.com'];
+        $validation = new SmtpEmailValidator($emails, $sender);
+        $validation->debug = true;
 
         $this->cron->unlock();
     }
