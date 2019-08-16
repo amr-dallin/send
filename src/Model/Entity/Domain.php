@@ -24,6 +24,7 @@ class Domain extends Entity
      */
     protected $_accessible = [
         'domain' => true,
-        'items' => true
+        'items' => true,
+        'date_checked' => true
     ];
 }

@@ -433,7 +433,8 @@ class ItemsTable extends Table
         return $query->where([
             'Items.rfc_validate' => true,
             'Items.spoof_validate' => true,
-            'Items.dns_validate' => true
+            'Items.dns_validate' => true,
+            'Items.smtp_validate IS' => null
         ]);
     }
 }
