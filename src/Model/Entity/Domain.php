@@ -25,6 +25,8 @@ class Domain extends Entity
     protected $_accessible = [
         'domain' => true,
         'items' => true,
-        'date_checked' => true
+        'date_checked' => true,
+        'smtp_validate' => true,
+        'mx_yandex' => true
     ];
 }

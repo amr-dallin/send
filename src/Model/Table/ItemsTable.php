@@ -431,10 +431,7 @@ class ItemsTable extends Table
     public function findLive(Query $query, array $options)
     {
         return $query->where([
-            'Items.rfc_validate' => true,
-            'Items.spoof_validate' => true,
-            'Items.dns_validate' => true,
-            'Items.smtp_validate IS' => null
+            'Items.is_live' => true
         ]);
     }
 }

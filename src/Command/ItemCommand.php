@@ -35,50 +35,61 @@ class ItemCommand extends Command
 
     public function execute(Arguments $args, ConsoleIo $io)
     {
-        $domain = $this->itemsTable->Domains
+        $domains = $this->itemsTable->Domains
             ->find()
-            ->where(['Domains.date_checked IS' => null])
-            ->contain('Items', function ($q) {
-                return $q->find('live');
-            })
-            ->first();
+            ->where([
+                'Domains.smtp_validate' => false,
+                'Domains.mx_yandex IS' => null
+            ])
+            ->contain('Items', function($q) {
+                return $q->where([
+                    'Items.email IS NOT' => null,
+                    'Items.is_live' => false,
+                    'Items.date_manualChecked IS' => null
+                ]);
+            });
 
-        $emails = [];
-        foreach($domain->items as $item) {
-            $emails[] = $item->email;
-        }
-
-        $date = new Date();
-        if (empty($emails)) {
-            echo 'No email addresses ' . $domain->domain;
-            $domain->date_checked = $date->format('c');
-            $this->itemsTable->Domains->save($domain);
-            $this->cron->unlock();
-            exit;
-        }
-
-        $validation = new SmtpEmailValidator($emails, 'send@dallin.uz');
-        $validation->debug = true;
-        $results = $validation->validate();
-        debug($results);
-
-        foreach($results as $key => $result) {
-            if ($key == 'domains') {
+        foreach($domains as $domain) {
+            if (empty($domain->items)) {
                 continue;
             }
 
+            $emails = [];
             foreach($domain->items as $item) {
-                if ($key == $item->email) {
-                    $item->smtp_validate = $result;
-                    $this->itemsTable->save($item);
-
-                    break;
-                }
+                $emails[] = $item->email;
             }
-        }
 
-        $domain->date_checked = $date->format('c');
-        $this->itemsTable->Domains->save($domain);
+            try {
+                $validator = new SmtpEmailValidator($emails, 'send@dallin.uz');
+                $validator->debug = true;
+                $results   = $validator->validate();
+
+                foreach($results as $key => $result) {
+                    if ($key == 'domains') {
+                        continue;
+                    }
+
+                    foreach($domain->items as $item) {
+                        if ($key == $item->email) {
+                            $item->is_live = $result;
+                            $this->itemsTable->save($item);
+
+                            break;
+                        }
+                    }
+                }
+
+                $domain->smtp_validate = true;
+                $this->itemsTable->Domains->save($domain);
+
+                debug($results);
+            }
+            catch(Exception $e) {
+                exit;
+            }
+
+            exit;
+        }
 
         $this->cron->unlock();
     }
