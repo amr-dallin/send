@@ -5,6 +5,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\Datasource\ConnectionManager;
 
 /**
  * Domains Model
@@ -33,7 +34,7 @@ class DomainsTable extends Table
         parent::initialize($config);
 
         $this->setTable('domains');
-        $this->setDisplayField('id');
+        $this->setDisplayField('domain');
         $this->setPrimaryKey('id');
 
         $this->hasMany('Items', [
@@ -60,5 +61,19 @@ class DomainsTable extends Table
             ->notEmptyString('domain');
 
         return $validator;
+    }
+
+    public function findSmtpCheck(Query $query, array $options)
+    {
+        return $query->where([
+            'Domains.smtp_validate' => true
+        ]);
+    }
+
+    public function findSmtpFailedCheck(Query $query, array $options)
+    {
+        return $query->where([
+            'Domains.smtp_validate' => false
+        ]);
     }
 }

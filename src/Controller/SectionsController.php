@@ -33,7 +33,7 @@ class SectionsController extends AppController
 
     public function regionSectionList()
     {
-        $this->request->allowMethod('ajax');
+        //$this->request->allowMethod('ajax');
 
         $tableCampaigns = TableRegistry::getTableLocator()->get('Campaigns');
         $campaign = $tableCampaigns->getCampaignItemList($this->request->query['campaign_id']);

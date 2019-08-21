@@ -7,6 +7,7 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use Sunra\PhpSimple\HtmlDomParser;
 use Cake\Utility\Text;
+use Cake\Database\Expression\QueryExpression;
 
 /**
  * Items Model
@@ -39,7 +40,7 @@ class ItemsTable extends Table
         parent::initialize($config);
 
         $this->setTable('items');
-        $this->setDisplayField('id');
+        $this->setDisplayField('email');
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp', [
@@ -430,8 +431,90 @@ class ItemsTable extends Table
 
     public function findLive(Query $query, array $options)
     {
+        return $query
+            ->find('withEmail')
+            ->find('domainSmtpCheck')
+            ->where(['Items.is_live' => true]);
+    }
+
+    public function findDie(Query $query, array $options)
+    {
+        return $query
+            ->find('withEmail')
+            ->find('domainSmtpCheck')
+            ->where(['Items.is_live' => false]);
+    }
+
+    public function findIncorrect(Query $query, array $options)
+    {
+        return $query
+            ->find('withEmail')
+            ->where(function (QueryExpression $exp) {
+                return $exp->or_([
+                    'is_live' => false,
+                    'rfc_validate' => false,
+                    'spoof_validate' => false,
+                    'dns_validate' => false
+                ]);
+        });
+    }
+
+    public function findWithEmail(Query $query, array $options)
+    {
         return $query->where([
-            'Items.is_live' => true
+            'Items.email IS NOT' => null
         ]);
+    }
+
+    public function findDomainSmtpCheck(Query $query, array $options)
+    {
+        return $query
+            ->innerJoinWith('Domains', function ($q) {
+                return $q->where(['Domains.smtp_validate' => true]);
+            });
+    }
+
+    public function findDomainSmtpFailedCheck(Query $query, array $options)
+    {
+        return $query
+            ->innerJoinWith('Domains', function ($q) {
+                return $q->where(['Domains.smtp_validate' => false]);
+            });
+    }
+
+    public function findDistributionByRegions(Query $query, array $options)
+    {
+        return $query
+            ->select([
+                'region' => 'Regions.title',
+                'quantity' => $query->func()->count('Items.id')
+            ])
+            ->innerJoinWith('Cities.Regions')
+            ->group(['region'])
+            ->order(['quantity' => 'DESC']);
+    }
+
+    public function findRfcFailedCheck(Query $query, array $options)
+    {
+        return $query
+            ->where(['Items.rfc_validate' => false])
+            ->find('withEmail')
+        ;
+    }
+
+    public function findSpoofFailedCheck(Query $query, array $options)
+    {
+        return $query
+            ->where(['spoof_validate' => false])
+            ->find('withEmail')
+        ;
+    }
+
+    public function findDnsFailedCheck(Query $query, array $options)
+    {
+        return $query
+            ->where(['dns_validate' => false])
+            ->find('withEmail')
+        ;
     }
 }

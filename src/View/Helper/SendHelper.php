@@ -71,11 +71,23 @@ class SendHelper extends Helper
         foreach($sections as $section) {
             foreach($section->categories as $category) {
                 foreach($category->items as $item) {
-                    $items[] = $item->id;
+                    $items[] = (int) $item->id;
                 }
             }
         }
 
-        return count(array_unique($items));
+        return count(array_unique($items, $sort_flags = SORT_NUMERIC));
+    }
+
+    public function distributionItemsWithEmailByRegions($regions)
+    {
+        $data = [];
+        foreach($regions as $key => $region) {
+            $data['labels'][$key] = $region->region;
+            $data['datasets'][0]['data'][$key] = $region->quantity;
+            $data['datasets'][0]['backgroundColor'][$key] = '#00a7db';
+        }
+
+        return json_encode($data);
     }
 }

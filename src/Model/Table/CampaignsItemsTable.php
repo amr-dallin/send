@@ -93,14 +93,14 @@ class CampaignsItemsTable extends Table
                 'city_ids' => $options['city_ids'],
                 'item_ids' => $options['campaign']['items']
             ])
-            ->find('list')
+            ->select(['Items.id'])
             ->toArray();
 
         $campaignsItems = [];
         foreach($items as $item) {
             $campaignsItems[] = [
                 'campaign_id' => $options['campaign']['id'],
-                'item_id' => $item
+                'item_id' => $item->id
             ];
         }
 

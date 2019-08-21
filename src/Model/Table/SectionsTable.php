@@ -185,7 +185,7 @@ class SectionsTable extends Table
     public function findResult(\Cake\ORM\Query $query, array $options)
     {
         return $query
-            ->matching('Categories.Items', function (\Cake\ORM\Query $q) use ($options) {
+            ->innerJoinWith('Categories.Items', function (\Cake\ORM\Query $q) use ($options) {
                 if (isset($options['city_ids']) && !empty($options['city_ids'])) {
                     $q = $q->where(['Items.city_id IN' => $options['city_ids']]);
                 }

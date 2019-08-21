@@ -38,7 +38,7 @@
                     $this->Html->tag('span', __('Dashboard'),
                         ['class' => 'menu-item-parent']
                     ),
-                    ['controller' => 'pages', 'action' => 'display'],
+                    ['controller' => 'Pages', 'action' => 'display'],
                     ['escape' => false]
                 );
                 ?>

@@ -28,42 +28,94 @@ use Cake\View\Exception\MissingTemplateException;
  */
 class PagesController extends AppController
 {
-
-    /**
-     * Displays a view
-     *
-     * @param array ...$path Path segments.
-     * @return \Cake\Http\Response|null
-     * @throws \Cake\Http\Exception\ForbiddenException When a directory traversal attempt.
-     * @throws \Cake\Http\Exception\NotFoundException When the view file could not
-     *   be found or \Cake\View\Exception\MissingTemplateException in debug mode.
-     */
-    public function display(...$path)
+    public function initialize()
     {
-        $count = count($path);
-        if (!$count) {
-            return $this->redirect('/');
-        }
-        if (in_array('..', $path, true) || in_array('.', $path, true)) {
-            throw new ForbiddenException();
-        }
-        $page = $subpage = null;
+        parent::initialize();
 
-        if (!empty($path[0])) {
-            $page = $path[0];
-        }
-        if (!empty($path[1])) {
-            $subpage = $path[1];
-        }
-        $this->set(compact('page', 'subpage'));
+        $this->loadModel('Items');
+        $this->loadModel('Domains');
+    }
 
-        try {
-            $this->render(implode('/', $path));
-        } catch (MissingTemplateException $exception) {
-            if (Configure::read('debug')) {
-                throw $exception;
-            }
-            throw new NotFoundException();
-        }
+    public function display()
+    {
+        $countItems = $this->Items->find()->count();
+        $countItemsWithEmail = $this->Items->find('withEmail')->count();
+
+        $distributionItemsWithEmailByRegions = $this->Items
+            ->find('distributionByRegions')
+            ->find('withEmail');
+
+        // RFC check analysis
+        $rfcFailedCheckItems = $this->Items
+            ->find('rfcFailedCheck')
+            ->find('list')
+            ->toArray();
+
+        $countRfcFailedCheckItems = $this->Items
+            ->find('rfcFailedCheck')
+            ->count();
+
+        // Spoof check analysis
+        $spoofFailedCheckItems = $this->Items
+            ->find('spoofFailedCheck')
+            ->find('list')
+            ->toArray();
+
+        $countSpoofFailedCheckItems = $this->Items
+            ->find('spoofFailedCheck')
+            ->count();
+
+
+        // DNS check analysis
+        $dnsFailedCheckItems = $this->Items
+            ->find('dnsFailedCheck')
+            ->find('list')
+            ->toArray();
+
+        $countDnsFailedCheckItems = $this->Items
+            ->find('dnsFailedCheck')
+            ->count();
+
+        // Domain SMTP analysis
+        $smtpFailedCheckDomains = $this->Domains
+            ->find('smtpFailedCheck')
+            ->find('list')
+            ->toArray();
+
+        $countSmtpFailedCheckDomains = $this->Domains
+            ->find('smtpFailedCheck')
+            ->count();
+
+        $countDomainSmtpFailedCheckItems = $this->Items
+            ->find('domainSmtpFailedCheck')
+            ->count();
+
+        // Emails SMTP analysis
+        $dieEmails = $this->Items->find('list')
+            ->find('die')
+            ->toArray();
+        $countDieEmails = $this->Items->find('die')->count();
+
+        $countLiveEmails = $this->Items->find('live')->count();
+        $countIncorrectEmails  = $this->Items->find('incorrect')->count();
+
+        $this->set(compact(
+            'countItems',
+            'countItemsWithEmail',
+            'distributionItemsWithEmailByRegions',
+            'rfcFailedCheckItems',
+            'countRfcFailedCheckItems',
+            'spoofFailedCheckItems',
+            'countSpoofFailedCheckItems',
+            'dnsFailedCheckItems',
+            'countDnsFailedCheckItems',
+            'smtpFailedCheckDomains',
+            'countSmtpFailedCheckDomains',
+            'countDomainSmtpFailedCheckItems',
+            'dieEmails',
+            'countDieEmails',
+            'countLiveEmails',
+            'countIncorrectEmails'
+        ));
     }
 }
