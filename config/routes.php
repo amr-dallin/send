@@ -68,6 +68,18 @@ Router::scope('/', function (RouteBuilder $routes) {
         ['controller' => 'Sections', 'action' => 'addSubscribers']
     )->setExtensions(['json']);*/
 
+    $routes->connect('/items/spoof-failed-email',
+        ['controller' => 'Items', 'action' => 'spoofFailedEmail']
+    )->setExtensions(['json']);
+
+    $routes->connect('/items/dns-failed-email',
+        ['controller' => 'Items', 'action' => 'dnsFailedEmail']
+    )->setExtensions(['json']);
+
+    $routes->connect('/items/die-email',
+        ['controller' => 'Items', 'action' => 'dieEmail']
+    )->setExtensions(['json']);
+
     /**
      * ...and connect the rest of 'Pages' controller's URLs.
      */

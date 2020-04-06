@@ -104,4 +104,34 @@ class ItemsController extends AppController
 
         exit;
     }
+
+    public function spoofFailedEmail()
+    {
+        $items = $this->Items
+            ->find('spoofFailedCheck')
+            ->select('email');
+
+        $this->set('items', $items);
+        $this->set('_serialize', 'items');
+    }
+
+    public function dnsFailedEmail()
+    {
+        $items = $this->Items
+            ->find('dnsFailedCheck')
+            ->select('email');
+
+        $this->set('items', $items);
+        $this->set('_serialize', 'items');
+    }
+
+    public function dieEmail()
+    {
+        $items = $this->Items
+            ->find('die')
+            ->select('email');
+
+        $this->set('items', $items);
+        $this->set('_serialize', 'items');
+    }
 }
